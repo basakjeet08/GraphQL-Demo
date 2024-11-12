@@ -1,0 +1,50 @@
+enum Role {
+    USER
+    ADMIN
+}
+
+enum Validation {
+    VALIDATED
+    NOT_VALIDATED
+}
+
+type User {
+    uid : ID!
+    name : String
+    anonymousName : String
+    email : String
+    photoUrl : String
+    role : Role
+    reviewsGiven : [Review]
+}
+
+type Faculty {
+    id : ID!
+    name : String
+    experience : Float
+    photoUrl : String
+    avgRating : Float
+    totalRating : Int
+    reviewList : [Review]
+}
+
+type Review {
+    id : ID!
+    rating : Float
+    feedback : String
+    status : Validation
+    createdAt : String
+    createdBy : User
+    createdFor : Faculty
+}
+
+type Query {
+    findAllFaculties : [Faculty]
+    findAllFacultiesByName(name : String) : [Faculty]
+    findFacultyById(id : String) : Faculty
+    deleteFaculty(id : String) : String
+}
+
+type Mutation {
+    createFaculty(name : String! , experience : Float! , photoUrl : String!) : Faculty
+}

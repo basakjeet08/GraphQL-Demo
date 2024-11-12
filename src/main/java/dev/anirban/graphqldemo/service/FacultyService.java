@@ -16,10 +16,18 @@ public class FacultyService {
 
     private final FacultyRepository facultyRepo;
 
-    public Faculty createFaculty(Faculty faculty) {
-        faculty.setAvgRating(0.0);
-        faculty.setTotalRating(0);
-        return facultyRepo.save(faculty);
+    public Faculty createFaculty(String name, Double experience, String photoUrl) {
+
+        Faculty newFaculty = Faculty
+                .builder()
+                .name(name)
+                .experience(experience)
+                .photoUrl(photoUrl)
+                .avgRating(0.0)
+                .totalRating(0)
+                .build();
+
+        return facultyRepo.save(newFaculty);
     }
 
     public List<Faculty> findAllFaculty() {
