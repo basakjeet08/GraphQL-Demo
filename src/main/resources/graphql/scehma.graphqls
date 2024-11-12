@@ -39,12 +39,31 @@ type Review {
 }
 
 type Query {
+
+    # Faculty Queries
     findAllFaculties : [Faculty]
     findAllFacultiesByName(name : String) : [Faculty]
     findFacultyById(id : String) : Faculty
-    deleteFaculty(id : String) : String
+
+    # Review Queries
+    findAllReviews : [Review]
+    findReviewById(id : String) : Review
+    findReviewByUserId(id : String) : [Review]
+    findReviewByFacultyId(id : String) : [Review]
 }
 
 type Mutation {
+
+    # Faculty Mutations
     createFaculty(name : String! , experience : Float! , photoUrl : String!) : Faculty
+    deleteFaculty(id : String) : String
+
+    # Review Mutations
+    createReview(
+        rating : Float ,
+        feedback : String ,
+        createdBy : String ,
+        createdFor : String
+    ) : Review
+    deleteReview(id : String) : String
 }

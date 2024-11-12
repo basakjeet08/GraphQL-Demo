@@ -1,6 +1,5 @@
 package dev.anirban.graphqldemo.service;
 
-import dev.anirban.graphqldemo.dto.PostReviewRequest;
 import dev.anirban.graphqldemo.entity.Faculty;
 import dev.anirban.graphqldemo.entity.Review;
 import dev.anirban.graphqldemo.entity.User;
@@ -27,17 +26,22 @@ public class ReviewService {
     private final ReviewRepository reviewRepo;
     private final ProfanityService profanityService;
 
-    public Review createReview(PostReviewRequest review) {
+    public Review createReview(
+            Double rating,
+            String feedback,
+            String createdBy,
+            String createdFor
+    ) {
 
         // Fetching user who created the Review
         User user = userRepo
-                .findById(review.getCreatedBy())
-                .orElseThrow(() -> new UserNotFound(review.getCreatedBy()));
+                .findById(createdBy)
+                .orElseThrow(() -> new UserNotFound(createdBy));
 
         // Fetching Faculty for which the review is created
         Faculty faculty = facultyRepo
-                .findById(review.getCreatedFor())
-                .orElseThrow(() -> new FacultyNotFound(review.getCreatedFor()));
+                .findById(createdFor)
+                .orElseThrow(() -> new FacultyNotFound(createdFor));
 
         // Check if the user has already reviewed this faculty
         if (checkIfAlreadyReviewed(user, faculty))
@@ -45,7 +49,7 @@ public class ReviewService {
 
 
         // Checking if the given review contains bad words or not.
-        if (profanityService.containsProfanity(review.getFeedback()))
+        if (profanityService.containsProfanity(feedback))
             throw new ProfanityFoundException();
 
 
@@ -56,8 +60,8 @@ public class ReviewService {
         // Building the Review Object
         Review newReview = Review
                 .builder()
-                .rating(review.getRating())
-                .feedback(review.getFeedback())
+                .rating(rating)
+                .feedback(feedback)
                 .status(Validation.NOT_VALIDATED)
                 .createdAt(formattedDate)
                 .createdBy(user)
