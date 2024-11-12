@@ -4,6 +4,7 @@ package dev.anirban.graphqldemo.entity;
 import dev.anirban.graphqldemo.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import java.util.List;
 public class User {
 
     @Id
+    @UuidGenerator
     private String uid;
     private String name;
     private String anonymousName;

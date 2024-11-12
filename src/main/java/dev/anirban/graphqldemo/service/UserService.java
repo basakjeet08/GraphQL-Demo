@@ -2,11 +2,13 @@ package dev.anirban.graphqldemo.service;
 
 
 import dev.anirban.graphqldemo.entity.User;
+import dev.anirban.graphqldemo.enums.Role;
 import dev.anirban.graphqldemo.exception.UserNotFound;
 import dev.anirban.graphqldemo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,9 +17,25 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepo;
+    private final RandomNameGenerator nameGenerator;
 
-    public User createUser(User user) {
-        return userRepo.save(user);
+    public User createUser(
+            String name,
+            String email,
+            String photoUrl
+    ) {
+
+        User newUser = User
+                .builder()
+                .name(name)
+                .anonymousName(nameGenerator.generateRandomName())
+                .email(email)
+                .photoUrl(photoUrl)
+                .role(Role.USER)
+                .reviewsGiven(new ArrayList<>())
+                .build();
+
+        return userRepo.save(newUser);
     }
 
     public List<User> findAllUsers() {
