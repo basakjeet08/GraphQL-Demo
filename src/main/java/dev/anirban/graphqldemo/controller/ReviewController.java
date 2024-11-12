@@ -4,6 +4,7 @@ import dev.anirban.graphqldemo.entity.Review;
 import dev.anirban.graphqldemo.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
@@ -15,7 +16,7 @@ public class ReviewController {
 
     private final ReviewService service;
 
-    @QueryMapping
+    @MutationMapping
     public Review createReview(
             @Argument Double rating,
             @Argument String feedback,
@@ -45,7 +46,7 @@ public class ReviewController {
         return service.findReviewByFacultyId(id);
     }
 
-    @QueryMapping
+    @MutationMapping
     public String deleteReview(@Argument String id) {
         service.deleteReview(id);
         return "Review Successfully Deleted";

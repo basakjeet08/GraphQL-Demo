@@ -5,6 +5,7 @@ import dev.anirban.graphqldemo.entity.User;
 import dev.anirban.graphqldemo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
@@ -16,7 +17,7 @@ public class UserController {
 
     private final UserService service;
 
-    @QueryMapping
+    @MutationMapping
     public User createUser(
             @Argument String name,
             @Argument String email,
@@ -35,7 +36,7 @@ public class UserController {
         return service.findUserById(id);
     }
 
-    @QueryMapping
+    @MutationMapping
     public String deleteUser(@Argument String id) {
         service.deleteUser(id);
         return "User deleted Successfully";

@@ -47,7 +47,7 @@ type Query {
 
     #User Queries
     findAllUsers : [User]
-    findUserById : User
+    findUserById(id : String) : User
 
     # Review Queries
     findAllReviews : [Review]

@@ -5,6 +5,7 @@ import dev.anirban.graphqldemo.entity.Faculty;
 import dev.anirban.graphqldemo.service.FacultyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
@@ -17,13 +18,13 @@ public class FacultyController {
     private final FacultyService service;
 
 
-    @QueryMapping
+    @MutationMapping
     public Faculty createFaculty(
             @Argument String name,
-            @Argument Double experience,
+            @Argument Float experience,
             @Argument String photoUrl
     ) {
-        return service.createFaculty(name, experience, photoUrl);
+        return service.createFaculty(name, experience.doubleValue(), photoUrl);
     }
 
     @QueryMapping
@@ -41,10 +42,9 @@ public class FacultyController {
         return service.findFacultyById(id);
     }
 
-    @QueryMapping
+    @MutationMapping
     public String deleteFaculty(@Argument String id) {
         service.deleteFacultyById(id);
-
         return "Successfully Deleted !!";
     }
 }
